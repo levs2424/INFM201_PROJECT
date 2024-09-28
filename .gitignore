@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/INFM201/bin
+/.vs
+/INFM201/obj/Debug
+/INFM201/packages
+/INFM201/.vs
