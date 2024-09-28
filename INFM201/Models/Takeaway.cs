@@ -14,12 +14,24 @@ namespace INFM201.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TakeawayID { get; set; }
-        public int CustomerID { get; set; }
+
+
+        [Required]
+        [Display(Name = "Guest Fullnames")]
+        public string Fullnames { get; set; }
+
+        [Required]
+        [Display(Name = "Guest Email")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+
         public DateTime OrderDate { get;set; } = DateTime.Now;
 
         public OrderStatusEnum OrderStatus { get; set; }
         public double TotalAmount { get; set; }
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public int Quantity { get; set; }
+        public double ItemPrice { get; set; }
 
     }
 }

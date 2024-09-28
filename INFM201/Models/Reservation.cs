@@ -14,6 +14,16 @@ namespace INFM201.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReservationID { get; set; }
 
+        [Required]
+        [Display(Name = "Guest Fullnames")]
+        public string Fullnames { get; set; }
+
+        [Required]
+        [Display(Name = "Guest Email")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+
        
         [Required(ErrorMessage = "Please enter a reservation date.")]
         [DataType(DataType.Date)]
@@ -40,8 +50,7 @@ namespace INFM201.Models
         public int NumberOfBookingsInside { get; set; }
         public int NumberOfBookingsOutside { get; set; }
 
-        public int CustomerID { get; set; }
-        public int StaffID { get; set; }
+       
 
 
 

@@ -12,12 +12,6 @@ namespace INFM201.Models
         public DbSet<Staff> Staff { get; set; }
 
         public DbSet<Confirmation> Confirmation { get; set; }
-
-
-        public DbSet<Customer> Customer { get; set; }
-
-        public DbSet<OrderItem> OrderItem{ get; set; }
-
         public DbSet<Takeaway> Takeaway { get; set; }
 
 
