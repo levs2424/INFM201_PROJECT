@@ -27,6 +27,6 @@ namespace INFM201.Models
         public string SpecialRequests { get; set; }
         public int? ReservationId { get; set; }
         public int? TakeawayId
-        {get; set;}
+       { get; set; }
     }
 }

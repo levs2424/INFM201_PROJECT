@@ -17,8 +17,8 @@ namespace INFM201.Models
 
 
         [Required]
-        [Display(Name = "Guest Fullnames")]
-        public string Fullnames { get; set; }
+        [Display(Name = "Please enter your Full names")]
+        public string Fullnames{ get; set; }
 
         [Required]
         [Display(Name = "Guest Email")]
@@ -31,7 +31,69 @@ namespace INFM201.Models
         public OrderStatusEnum OrderStatus { get; set; }
         public double TotalAmount { get; set; }
         public int Quantity { get; set; }
-        public double ItemPrice { get; set; }
 
+        public virtual ICollection<OrderItems> OrderItems { get; set; }
+
+
+
+        //[Required]
+        //[Display(Name = "Please select a menu item")]
+        public string OrderItem { get; set; }
+        public double GetPrice()
+        {
+            double price=0;
+            foreach (var item in OrderItems)
+            {
+                switch (item.ItemName)
+                {
+                    case "Margherita Pizza":
+                        price += 60;
+                        break;
+
+                    case "Chicken Mayo Pizza":
+                        price += 80;
+                        break;
+
+                    case "BBQ Chicken Burger":
+                        price += 70;
+                        break;
+
+                    case "Cheeseburger":
+                        price += 75;
+                        break;
+
+                    case "Chicken Wrap":
+                        price += 65;
+                        break;
+
+                    case "Veggie Wrap ":
+                        price += 55;
+                        break;
+
+                    case "Fish & Chips":
+                        price += 85;
+                        break;
+
+                    case "Beef Lasagna":
+                        price += 95;
+                        break;
+
+                    case "Grilled Chicken Salad":
+                        price += 70;
+                        break;
+
+                    case "Greek Salad":
+                        price += 50;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            double final_price = Quantity * price;
+            return final_price;
+
+        }
     }
 }
