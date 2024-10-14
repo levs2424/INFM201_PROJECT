@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Fullnames)
+            Full Name
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
@@ -27,9 +27,7 @@
             @Html.DisplayNameFor(model => model.TotalAmount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Quantity)
-       
-            @Html.DisplayNameFor(model => model.OrderItem)
+            Order Items
         </th>
         <th></th>
     </tr>
@@ -52,11 +50,12 @@
             @Html.DisplayFor(modelItem => item.TotalAmount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderItem)
+            @foreach (var q in item.OrderItems)
+            {
+        <div>
+            <strong>Item Name:</strong> @Html.DisplayFor(modelItem => q.ItemName) <br />
+            <strong>Quantity:</strong> @Html.DisplayFor(modelItem => q.Quantity) <br />
+        </div>}
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TakeawayID }) |

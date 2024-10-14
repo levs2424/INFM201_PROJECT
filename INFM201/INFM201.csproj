@@ -143,6 +143,14 @@
     <Compile Include="Migrations\202409301737518_AddedOrderItemModel.Designer.cs">
       <DependentUpon>202409301737518_AddedOrderItemModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202410141650545_RemovedQuantityAndOrderitemFromTakeAway.cs" />
+    <Compile Include="Migrations\202410141650545_RemovedQuantityAndOrderitemFromTakeAway.Designer.cs">
+      <DependentUpon>202410141650545_RemovedQuantityAndOrderitemFromTakeAway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410141728217_SoftDeleteTakeAway.cs" />
+    <Compile Include="Migrations\202410141728217_SoftDeleteTakeAway.Designer.cs">
+      <DependentUpon>202410141728217_SoftDeleteTakeAway.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Confirmation.cs" />
     <Compile Include="Models\Enums\OrderStatusEnum.cs" />
@@ -220,6 +228,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409301737518_AddedOrderItemModel.resx">
       <DependentUpon>202409301737518_AddedOrderItemModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410141650545_RemovedQuantityAndOrderitemFromTakeAway.resx">
+      <DependentUpon>202410141650545_RemovedQuantityAndOrderitemFromTakeAway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410141728217_SoftDeleteTakeAway.resx">
+      <DependentUpon>202410141728217_SoftDeleteTakeAway.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

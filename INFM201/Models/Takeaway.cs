@@ -30,69 +30,80 @@ namespace INFM201.Models
 
         public OrderStatusEnum OrderStatus { get; set; }
         public double TotalAmount { get; set; }
-        public int Quantity { get; set; }
+
+        public bool IsDelete { get; set; } = false;
+       
 
         public virtual ICollection<OrderItems> OrderItems { get; set; }
 
-
-
-        //[Required]
-        //[Display(Name = "Please select a menu item")]
-        public string OrderItem { get; set; }
         public double GetPrice()
         {
-            double price=0;
+         
+            double totalprice = 0;
             foreach (var item in OrderItems)
             {
+                double price = 0;
                 switch (item.ItemName)
                 {
                     case "Margherita Pizza":
-                        price += 60;
+                        price = 60;
+                        item.ItemPrice = price;
                         break;
 
                     case "Chicken Mayo Pizza":
-                        price += 80;
+                        price = 80;
+                        item.ItemPrice = price;
                         break;
 
                     case "BBQ Chicken Burger":
-                        price += 70;
+                        price = 70;
+                        item.ItemPrice = price;
                         break;
 
                     case "Cheeseburger":
-                        price += 75;
+                        price = 75;
+                        item.ItemPrice = price;
                         break;
 
                     case "Chicken Wrap":
-                        price += 65;
+                        price = 65;
+                        item.ItemPrice = price;
                         break;
 
                     case "Veggie Wrap ":
-                        price += 55;
+                        price = 55;
+                        item.ItemPrice = price;
                         break;
 
                     case "Fish & Chips":
-                        price += 85;
+                        price = 85;
+                        item.ItemPrice = price;
                         break;
 
                     case "Beef Lasagna":
-                        price += 95;
+                        price = 95;
+                        item.ItemPrice = price;
                         break;
 
                     case "Grilled Chicken Salad":
-                        price += 70;
+                        price = 70;
+                        item.ItemPrice = price;
                         break;
 
                     case "Greek Salad":
-                        price += 50;
+                        price = 50;
+                        item.ItemPrice = price;
                         break;
 
                     default:
                         break;
                 }
+
+                totalprice = totalprice + (price * item.Quantity);
             }
 
-            double final_price = Quantity * price;
-            return final_price;
+            
+            return totalprice;
 
         }
     }

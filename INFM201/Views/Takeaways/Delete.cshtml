@@ -51,23 +51,15 @@
             @Html.DisplayFor(model => model.TotalAmount)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-
-        
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderItem)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrderItem)
-        </dd>
+        @foreach (var q in Model.OrderItems)
+        {
+            <dd>
+                <strong>Item Name:</strong> @Html.DisplayFor(modelItem => q.ItemName)
+                <br />
+                <strong>Quantity:</strong> @Html.DisplayFor(modelItem => q.Quantity)
+                <br />
+            </dd>
+         }
 
     </dl>
 

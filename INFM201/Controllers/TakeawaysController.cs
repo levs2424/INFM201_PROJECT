@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using INFM201.Models;
@@ -17,7 +18,7 @@ namespace INFM201.Controllers
         // GET: Takeaways
         public ActionResult Index()
         {
-            return View(db.Takeaway.ToList());
+            return View(db.Takeaway.Where( x => x.IsDelete == false).ToList());
         }
 
         // GET: Takeaways/Details/5
@@ -55,11 +56,16 @@ namespace INFM201.Controllers
                 takeaway.TotalAmount = takeaway.GetPrice();
                 db.Takeaway.Add(takeaway);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                SendConfirmationEmail(takeaway.Email, takeaway.Fullnames, DateTime.Now);
+
             }
 
-            return View(takeaway);
+
+            return RedirectToAction("Index");
+            //return View(takeaway);
         }
+
 
         // GET: Takeaways/Edit/5
         public ActionResult Edit(int? id)
@@ -107,13 +113,43 @@ namespace INFM201.Controllers
             return View(takeaway);
         }
 
+
+        private void SendConfirmationEmail(string email, string fullnames, DateTime date)
+        {
+            string body = $"Dear {fullnames},\n\nYour Order has been placed. {date.ToShortDateString()} at {date.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
+            MailMessage message = new MailMessage
+            {
+                From = new MailAddress("chettyelizabeth79@gmail.com"), // Your Gmail address
+                Subject = "Reservation Confirmation",
+                Body = body
+            };
+            message.To.Add(email);
+
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("chettyelizabeth79@gmail.com", "oufd qrwh pbkl dpnl"), // Use a config file for security
+                EnableSsl = true
+            };
+
+            try
+            {
+                smtpClient.Send(message);
+            }
+            catch (SmtpException ex)
+            {
+                // Handle the exception
+                System.Diagnostics.Debug.WriteLine($"Error sending email: {ex.Message}");
+            }
+        }
+
+
         // POST: Takeaways/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Takeaway takeaway = db.Takeaway.Find(id);
-            db.Takeaway.Remove(takeaway);
+            takeaway.IsDelete = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
