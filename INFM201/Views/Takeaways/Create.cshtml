@@ -9,6 +9,27 @@
     $(document).ready(function () {
         var orderItems = [];
 
+        // Function to update the displayed list of items
+        function updateOrderItemsList() {
+            var itemList = $('#orderItemsList');
+            itemList.empty(); // Clear the list
+
+            $.each(orderItems, function (index, item) {
+               // console.log(item);
+                itemList.append(
+                    '<li>' + item.itemName + ' (Quantity: ' + item.quantity + ') ' +
+                    '<button type="button" class="btn btn-danger btn-sm removeItemButton" data-index="' + index + '">Remove</button>' +
+                    '</li>'
+                );
+            });
+
+            // Store the orderItems in a hidden field (so it gets submitted with the form)
+            $('#OrderItems').val(JSON.stringify(orderItems));
+        }
+
+        // Pre-populate the order items list on page load
+        updateOrderItemsList();
+
         // Function to add the selected item to the list
         $('#addItemButton').click(function () {
             var selectedItem = $('#menuItemDropdown').val();
@@ -24,18 +45,15 @@
             $('#addItemModal').modal('hide');
         });
 
-        // Function to update the displayed list of items
-        function updateOrderItemsList() {
-            var itemList = $('#orderItemsList');
-            itemList.empty(); // Clear the list
+        $('#orderItemsList').on('click', '.removeItemButton', function () {
+            var itemIndex = $(this).data('index');
 
-            $.each(orderItems, function (index, item) {
-                itemList.append('<li>' + item.itemName + ' (Quantity: ' + item.quantity + ')</li>');
-            });
+            // Remove the item from the orderItems array
+            orderItems.splice(itemIndex, 1);
 
-            // Store the orderItems in a hidden field (so it gets submitted with the form)
-            $('#OrderItems').val(JSON.stringify(orderItems));
-        }
+            // Update the list after removing the item
+            updateOrderItemsList();
+        });
     });
 </script>
 

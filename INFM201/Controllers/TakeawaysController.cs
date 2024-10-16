@@ -74,7 +74,7 @@ namespace INFM201.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Takeaway takeaway = db.Takeaway.Find(id);
+            var takeaway = db.Takeaway.Include(t => t.OrderItems).SingleOrDefault(t => t.TakeawayID == id);
             if (takeaway == null)
             {
                 return HttpNotFound();
@@ -87,11 +87,18 @@ namespace INFM201.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TakeawayID,Fullnames,Email,OrderDate,OrderStatus,TotalAmount,Quantity,ItemPrice,OrderItem")] Takeaway takeaway)
+        public ActionResult Edit([Bind(Include = "TakeawayID,Fullnames,Email,OrderDate,OrderStatus,TotalAmount,Quantity,ItemPrice,OrderItem")] Takeaway takeaway, string OrderItems)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(takeaway).State = EntityState.Modified;
+                var dbtakeaway = db.Takeaway.Include(t => t.OrderItems).SingleOrDefault(t => t.TakeawayID == takeaway.TakeawayID);
+
+                dbtakeaway.OrderItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderItems>>(OrderItems);
+                dbtakeaway.TotalAmount = dbtakeaway.GetPrice();
+                dbtakeaway.Email = takeaway.Email;
+                dbtakeaway.Fullnames = takeaway.Fullnames;
+                dbtakeaway.OrderDate = takeaway.OrderDate;
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
