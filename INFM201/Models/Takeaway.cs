@@ -33,9 +33,9 @@ namespace INFM201.Models
         public double TotalAmount { get; set; }
 
         public bool IsDelete { get; set; } = false;
-       
 
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
+
+        public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
 
         public double GetPrice()
         {

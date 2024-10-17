@@ -99,7 +99,8 @@
     <h4>Selected Items</h4>
     <ul id="orderItemsList"></ul>
 
-    <!-- Hidden field to store the selected items as a JSON string -->
+    @Html.ValidationMessageFor(model => model.OrderItems, "", new { @class = "text-danger" })<!-- Hidden field to store the selected items as a JSON string -->
+
     @Html.HiddenFor(model => model.OrderItems, new { id = "OrderItems" })
 
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">

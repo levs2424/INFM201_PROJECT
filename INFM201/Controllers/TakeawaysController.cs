@@ -18,7 +18,7 @@ namespace INFM201.Controllers
         // GET: Takeaways
         public ActionResult Index()
         {
-            return View(db.Takeaway.Where( x => x.IsDelete == false).ToList());
+            return View(db.Takeaway.Where(x => x.IsDelete == false).ToList());
         }
 
         // GET: Takeaways/Details/5
@@ -49,6 +49,11 @@ namespace INFM201.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TakeawayID,Fullnames,Email,OrderDate,OrderStatus,TotalAmount,Quantity,ItemPrice")] Takeaway takeaway, string OrderItems)
         {
+
+            var orderItemsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderItems>>(OrderItems);
+            if (!orderItemsList.Any())
+                ModelState.AddModelError("OrderItems", "Please select an order item");
+
             if (ModelState.IsValid)
             {
                 takeaway.OrderStatus = 0;
@@ -59,13 +64,15 @@ namespace INFM201.Controllers
 
                 SendConfirmationEmail(takeaway.Email, takeaway.Fullnames, DateTime.Now);
 
+
+                return RedirectToAction("Details", new { id = takeaway.TakeawayID });
+
             }
 
 
             //  return RedirectToAction("Index");
-            //return View(takeaway);
+            return View(takeaway);
 
-            return RedirectToAction("Details", new { id = takeaway.TakeawayID });
         }
 
 
@@ -89,18 +96,25 @@ namespace INFM201.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Edit([Bind(Include = "TakeawayID,Fullnames,Email,OrderDate,OrderStatus,TotalAmount,Quantity,ItemPrice,OrderItem")] Takeaway takeaway, string OrderItems)
+
         {
+
+            var orderItemsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderItems>>(OrderItems);
+            if (!orderItemsList.Any())
+                ModelState.AddModelError("OrderItems", "Please select an order item");
+
             if (ModelState.IsValid)
             {
                 var dbtakeaway = db.Takeaway.Include(t => t.OrderItems).SingleOrDefault(t => t.TakeawayID == takeaway.TakeawayID);
 
-                dbtakeaway.OrderItems = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OrderItems>>(OrderItems);
+                dbtakeaway.OrderItems = orderItemsList;
                 dbtakeaway.TotalAmount = dbtakeaway.GetPrice();
                 dbtakeaway.Email = takeaway.Email;
                 dbtakeaway.Fullnames = takeaway.Fullnames;
                 dbtakeaway.OrderDate = takeaway.OrderDate;
-                
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
