@@ -25,8 +25,9 @@ namespace INFM201.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-
-        public DateTime OrderDate { get;set; } = DateTime.Now;
+        [DataType(DataType.Date)]
+        public DateTime OrderDate { get; set; }
+        //public DateTime OrderDate { get;set; } = DateTime.Now;
 
         public OrderStatusEnum OrderStatus { get; set; }
         public double TotalAmount { get; set; }

@@ -84,13 +84,15 @@
     <div class="form-group">
         @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextBoxFor(model => model.OrderDate, new { @class = "form-control", @type = "date", @min = DateTime.Now.ToString("yyyy-MM-dd") })
             @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
 
-    
+
+
+
 
     <h4>Selected Items</h4>
     <ul id="orderItemsList"></ul>
@@ -102,7 +104,7 @@
         Add Menu Item
     </button>
 
-   
+
 
 
 
