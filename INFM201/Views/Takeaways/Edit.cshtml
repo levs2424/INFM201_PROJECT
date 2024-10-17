@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Your Order</h2>
 <script>
     $(document).ready(function () {
         var orderItems = @Html.Raw(Json.Encode(Model.OrderItems.Select(oi => new { itemName = oi.ItemName, quantity = oi.Quantity }).ToList()));

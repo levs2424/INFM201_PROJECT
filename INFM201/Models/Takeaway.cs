@@ -16,16 +16,16 @@ namespace INFM201.Models
         public int TakeawayID { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your full names.")]
         [Display(Name = "Please enter your Full names")]
         public string Fullnames{ get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Guest Email is required.")]
         [Display(Name = "Guest Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]
         public DateTime OrderDate { get; set; }
         //public DateTime OrderDate { get;set; } = DateTime.Now;
 

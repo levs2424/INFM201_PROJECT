@@ -62,8 +62,10 @@ namespace INFM201.Controllers
             }
 
 
-            return RedirectToAction("Index");
+            //  return RedirectToAction("Index");
             //return View(takeaway);
+
+            return RedirectToAction("Details", new { id = takeaway.TakeawayID });
         }
 
 
