@@ -16,10 +16,13 @@ namespace INFM201.Models
 
         public string TableNumber { get; set; }
 
-        public string SeatingType { get; set; } // "Inside - Couch/Lounge", "Inside - Table", or "Outside"
+        public string SeatingType { get; set; } 
 
-        public int MaxGuests { get; set; } // Max guests per table
+        public int MaxGuests { get; set; } 
 
-        public bool IsAvailable { get; set; } // Track availability
+        public bool IsAvailable { get; set; } 
+
+        public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
     }
 }

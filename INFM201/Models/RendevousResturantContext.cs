@@ -24,6 +24,12 @@ namespace INFM201.Models
                 .WithRequired(c => c.Reservation)
                 .WillCascadeOnDelete(false);  // Prevent cascading delete of Confirmation when Reservation is deleted
 
+            modelBuilder.Entity<Reservation>()
+                .HasRequired(r => r.Table) // Each Reservation must be associated with a Table
+                .WithMany(t => t.Reservations) // Each Table can have multiple Reservations
+                .HasForeignKey(r => r.TableID) // Foreign key in Reservation
+                .WillCascadeOnDelete(false); // Prevent cascading delete
+
             base.OnModelCreating(modelBuilder);
         }
 

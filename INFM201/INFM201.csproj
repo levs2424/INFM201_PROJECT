@@ -139,6 +139,10 @@
     <Compile Include="Migrations\202409281445445_RemovedCustomerModel.Designer.cs">
       <DependentUpon>202409281445445_RemovedCustomerModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202410181308504_TableReservationRelationship.cs" />
+    <Compile Include="Migrations\202410181308504_TableReservationRelationship.Designer.cs">
+      <DependentUpon>202410181308504_TableReservationRelationship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Confirmation.cs" />
     <Compile Include="Models\Enums\OrderStatusEnum.cs" />
@@ -208,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409281445445_RemovedCustomerModel.resx">
       <DependentUpon>202409281445445_RemovedCustomerModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410181308504_TableReservationRelationship.resx">
+      <DependentUpon>202410181308504_TableReservationRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

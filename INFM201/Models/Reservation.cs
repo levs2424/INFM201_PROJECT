@@ -56,7 +56,12 @@ namespace INFM201.Models
 
         public virtual Confirmation Confirmation { get; set; }
 
+        // Foreign key for Table
+        public int TableID { get; set; } // FK to the Table
 
+        // Navigation property for the related Table
+        [ForeignKey("TableID")]
+        public virtual Table Table { get; set; }
     }
 }
  
