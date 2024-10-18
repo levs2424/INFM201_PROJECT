@@ -54,6 +54,7 @@ namespace INFM201.Models
 
         public bool IsCompleted { get; set; } = false; // Default value to false
 
+        public virtual Confirmation Confirmation { get; set; }
 
 
     }

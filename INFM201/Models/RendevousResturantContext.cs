@@ -14,6 +14,19 @@ namespace INFM201.Models
         public DbSet<Confirmation> Confirmation { get; set; }
         public DbSet<Takeaway> Takeaway { get; set; }
 
+        public DbSet<Table> Tables { get; set; } // Add the DbSet for Table
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Reservation>()
+                .HasOptional(r => r.Confirmation)
+                .WithRequired(c => c.Reservation)
+                .WillCascadeOnDelete(false);  // Prevent cascading delete of Confirmation when Reservation is deleted
+
+            base.OnModelCreating(modelBuilder);
+        }
+
 
     }
 }

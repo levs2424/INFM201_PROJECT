@@ -20,5 +20,7 @@ namespace INFM201.Models
 
         [Display(Name = "Special Requests")]
         public string SpecialRequests { get; set; }
+
+        public virtual Reservation Reservation { get; set; }
     }
 }
