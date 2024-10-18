@@ -10,23 +10,15 @@ namespace INFM201.Models
 {
     public class Confirmation
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, ForeignKey("Reservation")]
+        public int ReservationID { get; set; }
 
-        public int ConfirmationID { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
 
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
 
-        [Display(Name = "Confirm Email Address")]
-        public string ConfirmEmailAddress { get; set; }
-
         [Display(Name = "Special Requests")]
         public string SpecialRequests { get; set; }
-        public int? ReservationId { get; set; }
-        public int? TakeawayId
-        {get; set;}
     }
 }

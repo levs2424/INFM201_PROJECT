@@ -144,6 +144,7 @@
     <Compile Include="Models\RendevousResturantContext.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Staff.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="Models\Takeaway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

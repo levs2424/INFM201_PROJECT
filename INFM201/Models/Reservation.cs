@@ -16,14 +16,12 @@ namespace INFM201.Models
 
         [Required]
         [Display(Name = "Guest Fullnames")]
-        public string Fullnames { get; set; }
+        public string CFullnames { get; set; }
 
         [Required]
         [Display(Name = "Guest Email")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-
-
+        public string CEmail { get; set; }
        
         [Required(ErrorMessage = "Please enter a reservation date.")]
         [DataType(DataType.Date)]
@@ -50,7 +48,11 @@ namespace INFM201.Models
         public int NumberOfBookingsInside { get; set; }
         public int NumberOfBookingsOutside { get; set; }
 
-       
+        [Display(Name = "Seating Type (Inside)")]
+        public string SeatingTypeInside { get; set; } 
+        public bool IsDeleted { get; set; } // Soft delete
+
+        public bool IsCompleted { get; set; } = false; // Default value to false
 
 
 
