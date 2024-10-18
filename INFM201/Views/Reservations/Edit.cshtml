@@ -1,0 +1,123 @@
+﻿@model INFM201.Models.Reservation
+
+@{
+    ViewBag.Title = "Edit Reservation";
+}
+
+@using (Html.BeginForm("Edit", "Reservations", FormMethod.Post, new { id = "reservationForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container" style="padding: 20px;">
+        <h2 class="text-left" style="margin-bottom: 20px;">Edit Reservation</h2>
+        <hr style="border: 1px solid #ddd;" />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ReservationID)
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.CFullnames, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.CFullnames, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CFullnames, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.CEmail, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.CEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.NumberOfGuests, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                <select class="form-control" id="NumberOfGuests" name="NumberOfGuests">
+                    <option value="">Select no. of guests</option>
+                    @for (int i = 1; i <= 7; i++)
+                    {
+                        if (i == 7) // Disabled for larger booking
+                        {
+                            <option value="@i" disabled>For larger booking, please phone restaurant</option>
+                        }
+                        else
+                        {
+                            <option value="@i" @(Model.NumberOfGuests == i ? "selected" : "")>@i person@(i > 1 ? "s" : "")</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.NumberOfGuests, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.SeatingPreference, "Seating Preference", htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.SeatingPreference, new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Inside - Couch/Lounge", Value = "Inside - Couch/Lounge" },
+                    new SelectListItem { Text = "Inside - Table", Value = "Inside - Table" },
+                    new SelectListItem { Text = "Outside", Value = "Outside" }
+                }, "Value", "Text", Model.SeatingPreference), "Select Seating Preference", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SeatingPreference, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <label for="hasSpecialRequests">Do you have any special requests?</label>
+                <input type="checkbox" id="hasSpecialRequests" name="hasSpecialRequests" value="true" @(Model.SpecialRequests != null ? "checked" : "") onchange="toggleSpecialRequest()" />
+                <textarea id="specialRequestField" class="form-control" name="SpecialRequests" @(Model.SpecialRequests == null ? "disabled" : "")>@(Model.SpecialRequests ?? "")</textarea>
+                @Html.ValidationMessageFor(model => model.SpecialRequests, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <input type="submit" value="Update Reservation" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function toggleSpecialRequest() {
+            var checkbox = document.getElementById("hasSpecialRequests");
+            var textArea = document.getElementById("specialRequestField");
+            if (checkbox.checked) {
+                textArea.disabled = false;
+                textArea.placeholder = "Enter your special request here...";
+            } else {
+                textArea.disabled = true;
+                textArea.value = "";
+            }
+        }
+    </script>
+}

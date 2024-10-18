@@ -14,7 +14,7 @@ namespace INFM201.Models
         public DbSet<Confirmation> Confirmation { get; set; }
         public DbSet<Takeaway> Takeaway { get; set; }
 
-        public DbSet<Table> Tables { get; set; } // Add the DbSet for Table
+        public DbSet<Table> Tables { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -22,13 +22,13 @@ namespace INFM201.Models
             modelBuilder.Entity<Reservation>()
                 .HasOptional(r => r.Confirmation)
                 .WithRequired(c => c.Reservation)
-                .WillCascadeOnDelete(false);  // Prevent cascading delete of Confirmation when Reservation is deleted
+                .WillCascadeOnDelete(false); 
 
             modelBuilder.Entity<Reservation>()
-                .HasRequired(r => r.Table) // Each Reservation must be associated with a Table
-                .WithMany(t => t.Reservations) // Each Table can have multiple Reservations
-                .HasForeignKey(r => r.TableID) // Foreign key in Reservation
-                .WillCascadeOnDelete(false); // Prevent cascading delete
+                .HasRequired(r => r.Table) 
+                .WithMany(t => t.Reservations) 
+                .HasForeignKey(r => r.TableID) 
+                .WillCascadeOnDelete(false); 
 
             base.OnModelCreating(modelBuilder);
         }

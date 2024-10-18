@@ -19,6 +19,15 @@
 
         protected override void Seed(INFM201.Models.RendevousResturantContext context)
         {
+            // Seeding Staff
+            var staff1 = new Staff
+            {
+                EmployeeID = 1,
+                Password = "1234"
+            };
+
+            context.Staff.AddOrUpdate(s => s.EmployeeID, staff1); // Use AddOrUpdate to avoid duplicates
+
             // Seeding Tables
             context.Tables.AddOrUpdate(
                 t => t.TableID, // Use TableID as the identifier
@@ -30,15 +39,7 @@
                 new Table { TableID = 6, SeatingType = "Outside", MaxGuests = 4, IsAvailable = true, TableNumber = "Table 6" }
             );
 
-
-            // Seeding Staff
-            context.Staff.AddOrUpdate(
-                s => s.EmployeeID, // Use EmployeeID as the identifier
-                new Staff { EmployeeID = 1, Password = "1234" }
-            );
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            context.SaveChanges(); // Save changes to the databaseavoid creating duplicate seed data.
         }
     }
 }
