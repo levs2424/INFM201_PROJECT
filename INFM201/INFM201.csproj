@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TakeawaysController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -138,9 +139,22 @@
     <Compile Include="Migrations\202409281445445_RemovedCustomerModel.Designer.cs">
       <DependentUpon>202409281445445_RemovedCustomerModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409301737518_AddedOrderItemModel.cs" />
+    <Compile Include="Migrations\202409301737518_AddedOrderItemModel.Designer.cs">
+      <DependentUpon>202409301737518_AddedOrderItemModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410141650545_RemovedQuantityAndOrderitemFromTakeAway.cs" />
+    <Compile Include="Migrations\202410141650545_RemovedQuantityAndOrderitemFromTakeAway.Designer.cs">
+      <DependentUpon>202410141650545_RemovedQuantityAndOrderitemFromTakeAway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410141728217_SoftDeleteTakeAway.cs" />
+    <Compile Include="Migrations\202410141728217_SoftDeleteTakeAway.Designer.cs">
+      <DependentUpon>202410141728217_SoftDeleteTakeAway.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Confirmation.cs" />
     <Compile Include="Models\Enums\OrderStatusEnum.cs" />
+    <Compile Include="Models\OrderItems.cs" />
     <Compile Include="Models\RendevousResturantContext.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Staff.cs" />
@@ -180,9 +194,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Takeaways\Create.cshtml" />
+    <Content Include="Views\Takeaways\Delete.cshtml" />
+    <Content Include="Views\Takeaways\Details.cshtml" />
+    <Content Include="Views\Takeaways\Edit.cshtml" />
+    <Content Include="Views\Takeaways\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -206,6 +223,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409281445445_RemovedCustomerModel.resx">
       <DependentUpon>202409281445445_RemovedCustomerModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409301737518_AddedOrderItemModel.resx">
+      <DependentUpon>202409301737518_AddedOrderItemModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410141650545_RemovedQuantityAndOrderitemFromTakeAway.resx">
+      <DependentUpon>202410141650545_RemovedQuantityAndOrderitemFromTakeAway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410141728217_SoftDeleteTakeAway.resx">
+      <DependentUpon>202410141728217_SoftDeleteTakeAway.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

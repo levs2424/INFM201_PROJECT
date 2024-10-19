@@ -1,0 +1,159 @@
+﻿@model INFM201.Models.Takeaway
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Your Order</h2>
+<script>
+    $(document).ready(function () {
+        var orderItems = @Html.Raw(Json.Encode(Model.OrderItems.Select(oi => new { itemName = oi.ItemName, quantity = oi.Quantity }).ToList()));
+
+        // Function to update the displayed list of items
+        function updateOrderItemsList() {
+            var itemList = $('#orderItemsList');
+            itemList.empty(); // Clear the list
+
+            $.each(orderItems, function (index, item) {
+               // console.log(item);
+                itemList.append(
+                    '<li>' + item.itemName + ' (Quantity: ' + item.quantity + ') ' +
+                    '<button type="button" class="btn btn-danger btn-sm removeItemButton" data-index="' + index + '">Remove</button>' +
+                    '</li>'
+                );
+            });
+
+            // Store the orderItems in a hidden field (so it gets submitted with the form)
+            $('#OrderItems').val(JSON.stringify(orderItems));
+        }
+
+        // Pre-populate the order items list on page load
+        updateOrderItemsList();
+
+        // Function to add the selected item to the list
+        $('#addItemButton').click(function () {
+            var selectedItem = $('#menuItemDropdown').val();
+            var quantity = $('#quantityInput').val();
+
+            // Add the item to the orderItems array
+            orderItems.push({ itemName: selectedItem, quantity: parseInt(quantity) });
+
+            // Update the table or list that shows the selected items
+            updateOrderItemsList();
+
+            // Close the modal
+            $('#addItemModal').modal('hide');
+        });
+
+        $('#orderItemsList').on('click', '.removeItemButton', function () {
+            var itemIndex = $(this).data('index');
+
+            // Remove the item from the orderItems array
+            orderItems.splice(itemIndex, 1);
+
+            // Update the list after removing the item
+            updateOrderItemsList();
+        });
+    });
+</script>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Takeaway</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.TakeawayID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fullnames, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fullnames, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Fullnames, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @Html.ValidationMessageFor(model => model.OrderItems, "", new { @class = "text-danger" })
+    <h4>Selected Items</h4>
+    <ul id="orderItemsList"></ul>
+
+    <!-- Hidden field to store the selected items as a JSON string -->
+    @Html.HiddenFor(model => model.OrderItems, new { id = "OrderItems" })
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addItemModal">
+        Add Menu Items
+    </button>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addItemModalLabel">Add Menu Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="menuItemDropdown">Select Menu Item</label>
+                    <select id="menuItemDropdown" class="form-control">
+                        <option value="Margherita Pizza">Margherita Pizza</option>
+                        <option value="Cheeseburger">Cheeseburger</option>
+                        <option value="Chicken Mayo Pizza">Chicken Mayo Pizza</option>
+                        <option value="BBQ Chicken Burger">BBQ Chicken Burger</option>
+                        <option value="Chicken Wrap">Chicken Wrap</option>
+                        <option value="Veggie Wrap">Veggie Wrap</option>
+                        <option value="Fish & Chips">Fish & Chips</option>
+                        <option value="Beef Lasagna">Beef Lasagna</option>
+                        <option value="Grilled Chicken Salad">Grilled Chicken Salad</option>
+                        <option value="Greek Salad">Greek Salad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantityInput">Enter Quantity</label>
+                    <input type="number" id="quantityInput" class="form-control" min="1" value="1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="addItemButton" class="btn btn-primary">Add Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

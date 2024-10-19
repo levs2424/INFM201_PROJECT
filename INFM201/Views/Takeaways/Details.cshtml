@@ -1,0 +1,68 @@
+﻿@model INFM201.Models.Takeaway
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2> Thank You For Your Order! Here Are The Details Of Your Takeaway Order</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fullnames)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fullnames)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+
+        @foreach (var q in Model.OrderItems)
+        {
+            <dd>
+                <strong>Item Name:</strong> @Html.DisplayFor(modelItem => q.ItemName)
+                <br />
+                <strong>Quantity:</strong> @Html.DisplayFor(modelItem => q.Quantity)
+                <br />
+            </dd>
+        }
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TakeawayID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
