@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net.Mail;
 using INFM201.Models;
+using System.Diagnostics;
+using System.Data.Entity.Infrastructure;
 
 namespace INFM201.Controllers
 {
@@ -164,40 +166,60 @@ namespace INFM201.Controllers
         {
             if (!ModelState.IsValid) return View(reservation);
 
-            var currentReservation = db.Reservations.Find(reservation.ReservationID);
-            currentReservation.CFullnames = reservation.CFullnames; currentReservation.CEmail = reservation.CEmail;
-            currentReservation.Date = reservation.Date; currentReservation.Time = reservation.Time;
-            currentReservation.NumberOfGuests = reservation.NumberOfGuests; currentReservation.SeatingPreference = reservation.SeatingPreference;
-            currentReservation.SpecialRequests = reservation.SpecialRequests;
-            currentReservation.IsConfirmed = true;
-
+            var currentReservation = db.Reservations.Include(r => r.Table).FirstOrDefault(r => r.ReservationID == reservation.ReservationID);
+            if (currentReservation == null)
+            {
+                ModelState.AddModelError("", "The reservation does not exist."); return View(reservation);
+            }
+            currentReservation.CFullnames = reservation.CFullnames; currentReservation.CEmail = reservation.CEmail; currentReservation.Date = reservation.Date;                  
+            currentReservation.Time = reservation.Time; currentReservation.NumberOfGuests = reservation.NumberOfGuests; currentReservation.SpecialRequests = reservation.SpecialRequests;
+            bool seatingPreferenceChanged = currentReservation.SeatingPreference != reservation.SeatingPreference;   // Check if seating preference or other reservation details have changed
             bool tableChanged = currentReservation.NumberOfGuests != reservation.NumberOfGuests ||
-                                currentReservation.SeatingPreference != reservation.SeatingPreference ||
+                                seatingPreferenceChanged ||
                                 currentReservation.Date != reservation.Date ||
                                 currentReservation.Time != reservation.Time;
 
             if (tableChanged)
             {
+                if (currentReservation.TableID > 0)
+                {
+                    var previousTable = db.Tables.Find(currentReservation.TableID);
+                    if (previousTable != null)
+                    {
+                        previousTable.IsAvailable = true; 
+                    }
+                }
                 var availableTables = db.Tables
-                    .Where(t => t.MaxGuests >= reservation.NumberOfGuests && t.IsAvailable)
-                    .Where(t => !db.Reservations.Any(r => r.TableID == t.TableID && r.Date == reservation.Date && r.Time == reservation.Time && !r.IsDeleted))
-                    .Where(t => t.SeatingType == reservation.SeatingPreference)
+                    .Where(t => t.MaxGuests >= reservation.NumberOfGuests && t.IsAvailable &&
+                                !db.Reservations.Any(r => r.TableID == t.TableID && r.Date == reservation.Date && r.Time == reservation.Time && !r.IsDeleted) &&
+                                t.SeatingType == reservation.SeatingPreference)
                     .ToList();
+
+                System.Diagnostics.Debug.WriteLine($"Available Tables Count: {availableTables.Count}");
 
                 if (!availableTables.Any())
                 {
                     ModelState.AddModelError("", "Sorry, no tables are available for the selected seating preference and time.");
                     ViewBag.Tables = db.Tables.Where(t => t.IsAvailable).ToList();
-                    ViewBag.TableID = new SelectList(ViewBag.Tables, "TableID", "TableNumber", reservation.TableID);
-                    return View(reservation);
+                    ViewBag.TableID = new SelectList(ViewBag.Tables, "TableID", "TableNumber", currentReservation.TableID);
+                    return View(currentReservation);
                 }
-                reservation.TableID = availableTables.First().TableID;
-            }
 
-            db.Entry(currentReservation).CurrentValues.SetValues(reservation);
-            db.SaveChanges();
-            SendEditedReservationEmail(reservation.CEmail, reservation.CFullnames, reservation.Date, reservation.Time, reservation.SpecialRequests, reservation.TableID);
-            TempData["Message"] = $"Reservation updated successfully! Table assigned: {reservation.TableID}.";
+                currentReservation.TableID = availableTables.First().TableID;
+                var newTable = db.Tables.Find(currentReservation.TableID);
+                if (newTable != null)
+                {
+                    newTable.IsAvailable = false; // Mark the new table as unavailable
+                }
+            }
+            try{
+                db.SaveChanges(); // Save changes to the database
+                SendEditedReservationEmail(currentReservation.CEmail, currentReservation.CFullnames, currentReservation.Date, currentReservation.Time, currentReservation.SpecialRequests, currentReservation.TableID);
+                TempData["Message"] = $"Reservation updated successfully! Table assigned: {currentReservation.TableID}."; }
+            catch (DbUpdateException ex){
+                ModelState.AddModelError("", "An error occurred while updating the reservation. Please try again.");
+                System.Diagnostics.Debug.WriteLine($"DbUpdateException: {ex.InnerException?.Message}");
+                return View(currentReservation); }
             return RedirectToAction("Index");
         }
 

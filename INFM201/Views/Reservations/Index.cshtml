@@ -19,7 +19,6 @@
         @TempData["ErrorMessage"]
     </div>
 }
-<h2 class="text-center">Edit Reservation</h2>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-success">@TempData["Message"]</div>
@@ -96,14 +95,14 @@
                 <td>
                     @if (item.IsConfirmed && !item.IsCompleted)
                     {
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID }) 
-                    } 
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID })
+                    }
                     else
                     {
                         <span class="text-muted">@((item.IsCompleted) ? "Editing not allowed" : "N/A")</span>
                     }
-                   | @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID }) 
+                    | @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
 
                     @if (item.IsConfirmed && !item.IsCompleted)
                     {
