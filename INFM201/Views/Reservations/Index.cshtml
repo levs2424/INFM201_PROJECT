@@ -1,0 +1,190 @@
+﻿@model IEnumerable<INFM201.Models.Reservation>
+
+@{
+    ViewBag.Title = "Reservations List";
+}
+
+<h2>Reservations List</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" style="margin-bottom: 20px;">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" style="margin-bottom: 20px;">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div class="form-group mb-4">
+    <label for="statusFilter">Filter by Status:</label>
+    <select id="statusFilter" class="form-control" onchange="filterReservations()">
+        <option value="">All</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="completed">Completed</option>
+    </select>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ReservationID)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().CFullnames)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().CEmail)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Date)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Time)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().NumberOfGuests)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().SeatingPreference)</th>
+            <th>@Html.DisplayName("Special Requests")</th>
+            <th>@Html.DisplayName("Status")</th>
+            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().TableID)</th>
+            <th>@Html.DisplayName("Table Number")</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="reservationsTableBody">
+        @foreach (var item in Model.Where(reservation => !reservation.IsDeleted))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ReservationID)</td>
+                <td>@Html.DisplayFor(modelItem => item.CFullnames)</td>
+                <td>@Html.DisplayFor(modelItem => item.CEmail)</td>
+                <td>@item.Date.ToString("MM/dd/yyyy")</td>
+                <td>@Html.DisplayFor(modelItem => item.Time)</td>
+                <td>@Html.DisplayFor(modelItem => item.NumberOfGuests)</td>
+                <td>@Html.DisplayFor(modelItem => item.SeatingPreference)</td>
+                <td>
+                    @if (string.IsNullOrEmpty(item.SpecialRequests))
+                    {
+                        <span>None</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.SpecialRequests)
+                    }
+                </td>
+                <td>
+                    @if (item.IsCompleted)
+                    {
+                        <span class="text-primary">Completed</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Confirmed</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.TableID)</td>
+                <td>
+                    @if (item.Table != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Table.TableNumber)
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </td>
+                <td>
+                    @if (item.IsConfirmed && !item.IsCompleted)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ReservationID })
+                    }
+                    else
+                    {
+                        <span class="text-muted">@((item.IsCompleted) ? "Editing not allowed" : "N/A")</span>
+                    }
+                    | @Html.ActionLink("Details", "Details", new { id = item.ReservationID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ReservationID })
+
+                    @if (item.IsConfirmed && !item.IsCompleted)
+                    {
+                        using (Html.BeginForm("Complete", "Reservations", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", item.ReservationID)
+                            <button type="submit" class="btn btn-success">Mark as Complete</button>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function filterReservations() {
+            var status = document.getElementById("statusFilter").value;
+
+            $.ajax({
+                url: '@Url.Action("Filter", "Reservations")',
+                type: 'GET',
+                data: { status: status },
+                success: function (data) {
+                    $('#reservationsTableBody').empty();
+                    $.each(data, function (index, item) {
+                        var date = new Date(item.Date);
+                        var formattedDate = date.toLocaleDateString(); // Format date correctly
+                        var formattedTime = '';
+
+                        if (item.Time) {
+                            var totalMinutes = Math.floor(item.Time.TotalMinutes);
+                            var hours = Math.floor(totalMinutes / 60);
+                            var minutes = totalMinutes % 60;
+
+                            formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+                        }
+
+                        var specialRequests = item.SpecialRequests || "None";
+                        var statusText = item.IsCompleted ? "Completed" : (item.IsConfirmed ? "Confirmed" : "");
+                        var statusClass = item.IsCompleted ? "text-primary" : (item.IsConfirmed ? "text-success" : "");
+
+                        // Determine if the Edit link should be shown
+                        var editLink = (item.IsConfirmed && !item.IsCompleted) ?
+                            `<a href='/Reservations/Edit/${item.ReservationID}'>Edit</a>` :
+                            `<span class="text-muted">${item.IsCompleted ? "Editing not allowed" : "N/A"}</span>`;
+
+                        $('#reservationsTableBody').append(
+                            `<tr>
+                                <td>${item.ReservationID}</td>
+                                <td>${item.CFullnames}</td>
+                                <td>${item.CEmail}</td>
+                                <td>${formattedDate}</td>
+                                <td>${formattedTime}</td>
+                                <td>${item.NumberOfGuests}</td>
+                                <td>${item.SeatingPreference}</td>
+                                <td>${specialRequests}</td>
+                                <td><span class="${statusClass}">${statusText}</span></td>
+                                <td>${item.TableID}</td>
+                                <td>${item.TableNumber || 'N/A'}</td>
+                                <td>
+                                    ${editLink} |
+                                    <a href='/Reservations/Details/${item.ReservationID}'>Details</a> |
+                                    <a href='/Reservations/Delete/${item.ReservationID}'>Delete</a>
+                                    ${item.IsConfirmed && !item.IsCompleted ?
+                                        `<form method="post" action="/Reservations/Complete" style="display:inline;">
+                                            <input type="hidden" name="__RequestVerificationToken" value="@Html.AntiForgeryToken().ToString()">
+                                            <input type="hidden" name="id" value="${item.ReservationID}">
+                                            <button type="submit" class="btn btn-success">Mark as Complete</button>
+                                        </form>` : ''}
+                                </td>
+                            </tr>`
+                        );
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching filtered reservations: ", error);
+                }
+            });
+        }
+    </script>
+}

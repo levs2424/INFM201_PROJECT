@@ -19,16 +19,27 @@
 
         protected override void Seed(INFM201.Models.RendevousResturantContext context)
         {
-            //  This method will be called after migrating to the latest version.
-            var staff1 = new Staff();
-            staff1.EmployeeID = 1;
-            staff1.Password = "1234";
+            // Seeding Staff
+            var staff1 = new Staff
+            {
+                EmployeeID = 1,
+                Password = "1234"
+            };
 
-            context.Staff.Add(staff1);
-            context.SaveChanges();
+            context.Staff.AddOrUpdate(s => s.EmployeeID, staff1); // Use AddOrUpdate to avoid duplicates
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
+            // Seeding Tables
+            context.Tables.AddOrUpdate(
+                t => t.TableID, // Use TableID as the identifier
+                new Table { TableID = 1, SeatingType = "Inside - Table", MaxGuests = 4, IsAvailable = true, TableNumber = "Table 1" },
+                new Table { TableID = 2, SeatingType = "Inside - Table", MaxGuests = 4, IsAvailable = true, TableNumber = "Table 2" },
+                new Table { TableID = 3, SeatingType = "Inside - Table", MaxGuests = 6, IsAvailable = true, TableNumber = "Table 3" },
+                new Table { TableID = 4, SeatingType = "Inside - Couch/Lounge", MaxGuests = 6, IsAvailable = true, TableNumber = "Couch 1" },
+                new Table { TableID = 5, SeatingType = "Outside", MaxGuests = 2, IsAvailable = true, TableNumber = "Table 5" },
+                new Table { TableID = 6, SeatingType = "Outside", MaxGuests = 4, IsAvailable = true, TableNumber = "Table 6" }
+            );
+
+            context.SaveChanges(); // Save changes to the databaseavoid creating duplicate seed data.
         }
     }
 }

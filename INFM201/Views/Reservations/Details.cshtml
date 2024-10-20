@@ -1,0 +1,68 @@
+﻿@model INFM201.Models.Reservation
+
+@{
+    ViewBag.Title = "Reservation Details";
+}
+
+<h2>Reservation Details</h2>
+
+<div class="reservation-details">
+    <h4>Reservation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.CFullnames)</dt>
+        <dd>@Html.DisplayFor(model => model.CFullnames)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.CEmail)</dt>
+        <dd>@Html.DisplayFor(model => model.CEmail)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Date)</dt>
+        <dd>@Html.DisplayFor(model => model.Date)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Time)</dt>
+        <dd>@Html.DisplayFor(model => model.Time)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.NumberOfGuests)</dt>
+        <dd>@Html.DisplayFor(model => model.NumberOfGuests)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.SeatingPreference)</dt>
+        <dd>@Html.DisplayFor(model => model.SeatingPreference)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.SpecialRequests)</dt>
+        <dd>
+            @if (string.IsNullOrEmpty(Model.SpecialRequests))
+            {
+                <span>None</span>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.SpecialRequests)
+            }
+        </dd>
+
+        <dt>@Html.DisplayNameFor(model => model.IsConfirmed)</dt>
+        <dd>
+            <span class="@(Model.IsConfirmed ? "text-success" : "text-danger")">
+                @(Model.IsConfirmed ? "Confirmed" : "Not Confirmed")
+            </span>
+        </dd>
+
+        <dt>@Html.DisplayName("Status")</dt>
+        <dd>
+            <span class="@(Model.IsDeleted ? "text-danger" : "text-success")">
+                @(Model.IsDeleted ? "Marked as Deleted" : "Active")
+            </span>
+        </dd>
+
+        <dt>@Html.DisplayNameFor(model => model.TableID)</dt>
+        <dd>@Html.DisplayFor(model => model.TableID)</dd> <!-- Corrected line -->
+
+        <dt>Table Number</dt>
+        <dd>@Html.DisplayFor(model => model.Table.TableNumber)</dd> <!-- Corrected line -->
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReservationID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
