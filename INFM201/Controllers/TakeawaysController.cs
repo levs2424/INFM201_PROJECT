@@ -62,7 +62,8 @@ namespace INFM201.Controllers
                 db.Takeaway.Add(takeaway);
                 db.SaveChanges();
 
-                SendConfirmationEmail(takeaway.Email, takeaway.Fullnames, DateTime.Now);
+                string body = $"Dear {takeaway.Fullnames},\n\nYour Order has been placed. {DateTime.Now.ToShortDateString()} at {DateTime.Now.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
+                SendConfirmationEmail(takeaway.Email,body);
 
 
                 return RedirectToAction("Details", new { id = takeaway.TakeawayID });
@@ -84,6 +85,7 @@ namespace INFM201.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var takeaway = db.Takeaway.Include(t => t.OrderItems).SingleOrDefault(t => t.TakeawayID == id);
+         
             if (takeaway == null)
             {
                 return HttpNotFound();
@@ -118,6 +120,11 @@ namespace INFM201.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            string body = $"Dear {takeaway.Fullnames},\n\nYour Order has been updated. {DateTime.Now.ToShortDateString()} at {DateTime.Now.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
+            SendConfirmationEmail(takeaway.Email, body);
+
+
             return View(takeaway);
         }
 
@@ -137,9 +144,9 @@ namespace INFM201.Controllers
         }
 
 
-        private void SendConfirmationEmail(string email, string fullnames, DateTime date)
+        private void SendConfirmationEmail(string email ,string body)
         {
-            string body = $"Dear {fullnames},\n\nYour Order has been placed. {date.ToShortDateString()} at {date.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
+            //string body = $"Dear {fullnames},\n\nYour Order has been placed. {date.ToShortDateString()} at {date.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
             MailMessage message = new MailMessage
             {
                 From = new MailAddress("chettyelizabeth79@gmail.com"), // Your Gmail address

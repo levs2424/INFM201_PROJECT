@@ -46,9 +46,13 @@
             @Html.DisplayNameFor(model => model.TotalAmount)
         </dt>
 
+        
+
         <dd>
-            @Html.DisplayFor(model => model.TotalAmount)
+            @String.Format("R {0:0.00}", Model.TotalAmount)
         </dd>
+
+
 
         @foreach (var q in Model.OrderItems)
         {
