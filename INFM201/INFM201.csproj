@@ -121,7 +121,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\AdminController.cs" />
+=======
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TakeawaysController.cs" />
@@ -169,10 +172,13 @@
     <Compile Include="Migrations\202410220733026_News.Designer.cs">
       <DependentUpon>202410220733026_News.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="Migrations\202410221111275_RemovedStaff.cs" />
     <Compile Include="Migrations\202410221111275_RemovedStaff.Designer.cs">
       <DependentUpon>202410221111275_RemovedStaff.cs</DependentUpon>
     </Compile>
+=======
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Confirmation.cs" />
     <Compile Include="Models\Enums\OrderStatusEnum.cs" />
@@ -228,7 +234,10 @@
     <Content Include="Views\Reservations\Edit.cshtml" />
     <Content Include="Views\Reservations\Index.cshtml" />
     <Content Include="Views\Authentication\Login.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Admin\Index.cshtml" />
+=======
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -277,9 +286,12 @@
     <EmbeddedResource Include="Migrations\202410220733026_News.resx">
       <DependentUpon>202410220733026_News.cs</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
     <EmbeddedResource Include="Migrations\202410221111275_RemovedStaff.resx">
       <DependentUpon>202410221111275_RemovedStaff.cs</DependentUpon>
     </EmbeddedResource>
+=======
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

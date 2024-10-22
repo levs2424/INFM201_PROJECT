@@ -15,7 +15,11 @@ namespace INFM201.Controllers
     {
         private RendevousResturantContext db = new RendevousResturantContext();
 
+<<<<<<< HEAD
       //  [Authorize]
+=======
+        [Authorize]
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
         // GET: Takeaways
         public ActionResult Index()
         {

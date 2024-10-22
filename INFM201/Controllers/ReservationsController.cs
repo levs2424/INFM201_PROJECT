@@ -19,7 +19,11 @@ namespace INFM201.Controllers
 
         // GET: Reservations
 
+<<<<<<< HEAD
       //  [Authorize]
+=======
+        [Authorize]
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
         public ActionResult Index()
         {
             var confirmedReservations = db.Reservations

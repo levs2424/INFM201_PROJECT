@@ -12,8 +12,13 @@ namespace INFM201.Controllers
         private static List<Staff> staffList = new List<Staff>
         {
             new Staff { StaffId = 1, EmployeeID = 22360612, Password = "password1", StaffEmail = "staff1@example.com", IsActive = true },
+<<<<<<< HEAD
             new Staff { StaffId = 2, EmployeeID = 22345788, Password = "password1", StaffEmail = "staff2@example.com", IsActive = true },
             new Staff { StaffId = 3, EmployeeID = 22239021, Password = "password1", StaffEmail = "staff3@example.com", IsActive = true }
+=======
+            new Staff { StaffId = 2, EmployeeID = 22345788, Password = "password2", StaffEmail = "staff2@example.com", IsActive = true },
+            new Staff { StaffId = 3, EmployeeID = 22239021, Password = "password3", StaffEmail = "staff3@example.com", IsActive = true }
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
         };
 
         // GET: Account/Login
@@ -34,7 +39,11 @@ namespace INFM201.Controllers
             if (IsValid(staff.EmployeeID, staff.Password))
             {
                 FormsAuthentication.SetAuthCookie(staff.EmployeeID.ToString(), false);
+<<<<<<< HEAD
                 return RedirectToAction("Index", "Admin");
+=======
+                return RedirectToAction("Index", "Reservations");
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
             }
             else
             {
@@ -44,8 +53,11 @@ namespace INFM201.Controllers
         }
 
         // GET: Account/Logout
+<<<<<<< HEAD
 
         [HttpPost]
+=======
+>>>>>>> d807475ef18e755ef31fb4198901a0e65cd47838
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
