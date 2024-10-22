@@ -32,29 +32,7 @@
 
             context.SaveChanges(); // Save changes to the databaseavoid creating duplicate seed data.
 
-            context.Staff.AddOrUpdate(
-                s => s.EmployeeID, // Check by EmployeeID to avoid duplicates
-                new Staff
-                {
-                  EmployeeID = 1001,
-                  StaffEmail = "elishaechetty@gmail.com",
-                  Password = "InitialPassword123", // You may want to hash this later
-                  IsManager = true,
-                  IsActive = true,
-                  DateCreated = DateTime.Now
-                },
-                new Staff
-                {
-                  EmployeeID = 1002,
-                  StaffEmail = "chettyelsie9@gmail.com",
-                  Password = "InitialPassword123", // You may want to hash this later
-                  IsManager = false,
-                  IsActive = true,
-                  DateCreated = DateTime.Now
-                }
-            );
 
-            context.SaveChanges(); // Save changes to the database
 
         }
     }

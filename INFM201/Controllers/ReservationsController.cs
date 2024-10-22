@@ -18,6 +18,8 @@ namespace INFM201.Controllers
         private RendevousResturantContext db = new RendevousResturantContext();
 
         // GET: Reservations
+
+        [Authorize]
         public ActionResult Index()
         {
             var confirmedReservations = db.Reservations

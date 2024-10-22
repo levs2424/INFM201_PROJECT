@@ -33,7 +33,6 @@ namespace INFM201.Models
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public bool IsActive { get; set; } = true; // Can deactivate users
-        public bool IsManager { get; set; } = false; // Indicates if staff is a manager
 
         // Relationships
         public virtual ICollection<Takeaway> Takeaway { get; set; }

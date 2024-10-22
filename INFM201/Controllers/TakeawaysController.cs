@@ -15,6 +15,7 @@ namespace INFM201.Controllers
     {
         private RendevousResturantContext db = new RendevousResturantContext();
 
+        [Authorize]
         // GET: Takeaways
         public ActionResult Index()
         {
@@ -22,6 +23,7 @@ namespace INFM201.Controllers
         }
 
         // GET: Takeaways/Details/5
+       
         public ActionResult Details(int? id)
         {
             if (id == null)
