@@ -1,63 +1,26 @@
-﻿@model IEnumerable<INFM201.Models.Staff>
+﻿
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EmployeeID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsManager)
-        </th>
-        <th></th>
-    </tr>
+                <h5 class="card-title">View Takeaways</h5>
+                <a href="@Url.Action("Index","Takeaways")" class="btn btn-primary">Go to Takeaways</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> View Reservation</h5>
+                <a href="@Url.Action("Index","Reservations")" class="btn btn-danger">Go to Reservations</a>
+            </div>
+        </div>
+        </div>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmployeeID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StaffEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsManager)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.StaffId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.StaffId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.StaffId })
-        </td>
-    </tr>
-}
-
-</table>

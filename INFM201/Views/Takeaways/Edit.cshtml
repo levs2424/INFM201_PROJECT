@@ -1,4 +1,5 @@
 ﻿@model INFM201.Models.Takeaway
+@using INFM201.Models.Enums
 
 @{
     ViewBag.Title = "Edit";
@@ -91,6 +92,20 @@
             @Html.ValidationMessageFor(model => model.OrderDate, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.OrderStatus, new SelectList(Enum.GetValues(typeof(OrderStatusEnum))), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrderStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+    }
 
     @Html.ValidationMessageFor(model => model.OrderItems, "", new { @class = "text-danger" })
     <h4>Selected Items</h4>

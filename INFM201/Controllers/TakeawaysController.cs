@@ -15,6 +15,7 @@ namespace INFM201.Controllers
     {
         private RendevousResturantContext db = new RendevousResturantContext();
 
+      //  [Authorize]
         // GET: Takeaways
         public ActionResult Index()
         {
@@ -22,6 +23,7 @@ namespace INFM201.Controllers
         }
 
         // GET: Takeaways/Details/5
+       
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -116,14 +118,16 @@ namespace INFM201.Controllers
                 dbtakeaway.Email = takeaway.Email;
                 dbtakeaway.Fullnames = takeaway.Fullnames;
                 dbtakeaway.OrderDate = takeaway.OrderDate;
+                dbtakeaway.OrderStatus = takeaway.OrderStatus;
 
                 db.SaveChanges();
+                string body = $"Dear {takeaway.Fullnames},\n\nYour Order has been updated. {DateTime.Now.ToShortDateString()} at {DateTime.Now.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
+                SendConfirmationEmail(takeaway.Email, body);
+
                 return RedirectToAction("Index");
             }
 
-            string body = $"Dear {takeaway.Fullnames},\n\nYour Order has been updated. {DateTime.Now.ToShortDateString()} at {DateTime.Now.ToString(@"hh\:mm")} you can collect in the next 30 mins.\n\nThank you!";
-            SendConfirmationEmail(takeaway.Email, body);
-
+            
 
             return View(takeaway);
         }

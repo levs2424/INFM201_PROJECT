@@ -24,6 +24,19 @@
                     <li>@Html.ActionLink("Book Reservation", "Create", "Reservations")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Employee Code: @User.Identity.Name</a>
+                        </li>
+                        <li class="nav-item">
+                            <form id="logoutForm" action="@Url.Action("Logout", "Authentication")" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                            </form>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

@@ -12,6 +12,12 @@ namespace INFM201
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapRoute(
+                name: "Login",
+                url: "Account/Login",
+                defaults: new { controller = "Admin", action = "Login" }
+                );
+
 
             routes.MapRoute(
                 name: "Default",
