@@ -61,6 +61,11 @@ namespace INFM201.Models
         [ForeignKey("TableID")]
         public virtual Table Table { get; set; }
 
+        public int? StaffId { get; set; } // Nullable
+
+        [ForeignKey("StaffId")]
+        public virtual Staff Staff { get; set; }
+
     }
 }
  

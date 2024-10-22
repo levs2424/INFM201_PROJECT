@@ -37,6 +37,11 @@ namespace INFM201.Models
 
         public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
 
+        public int? StaffId { get; set; } // Nullable
+
+        [ForeignKey("StaffId")]
+        public virtual Staff Staff { get; set; }
+
         public double GetPrice()
         {
          

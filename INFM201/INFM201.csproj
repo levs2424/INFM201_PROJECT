@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TakeawaysController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
@@ -160,6 +161,14 @@
     <Compile Include="Migrations\202410181327416_Seedingfortables.cs" />
     <Compile Include="Migrations\202410181327416_Seedingfortables.Designer.cs">
       <DependentUpon>202410181327416_Seedingfortables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410212135325_StaffAdminChnages.cs" />
+    <Compile Include="Migrations\202410212135325_StaffAdminChnages.Designer.cs">
+      <DependentUpon>202410212135325_StaffAdminChnages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410212144481_Roleidentity.cs" />
+    <Compile Include="Migrations\202410212144481_Roleidentity.Designer.cs">
+      <DependentUpon>202410212144481_Roleidentity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Confirmation.cs" />
@@ -216,6 +225,14 @@
     <Content Include="Views\Reservations\Details.cshtml" />
     <Content Include="Views\Reservations\Edit.cshtml" />
     <Content Include="Views\Reservations\Index.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\ResetPassword.cshtml" />
+    <Content Include="Views\Admin\SetNewPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -254,6 +271,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410141728217_SoftDeleteTakeAway.resx">
       <DependentUpon>202410141728217_SoftDeleteTakeAway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410212135325_StaffAdminChnages.resx">
+      <DependentUpon>202410212135325_StaffAdminChnages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410212144481_Roleidentity.resx">
+      <DependentUpon>202410212144481_Roleidentity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

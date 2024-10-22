@@ -19,7 +19,27 @@ namespace INFM201.Models
         public int EmployeeID { get; set; }
 
         [Required]
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Required]
+        [DisplayName("Email")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string StaffEmail { get; set; }
+        
+        [DisplayName("Date Created")]
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public bool IsActive { get; set; } = true; // Can deactivate users
+        public bool IsManager { get; set; } = false; // Indicates if staff is a manager
+
+        // Relationships
+        public virtual ICollection<Takeaway> Takeaway { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; }
+
+
 
     }
 
